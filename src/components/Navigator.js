@@ -1,5 +1,5 @@
 import FoodBody from "./food/FoodBody";
-import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import FoodAbout from "./food/FoodAbout";
 import Error from "./Error";
 import RestaurantMenu from "./food/RestaurantMenu";
@@ -10,6 +10,8 @@ import GroceryBody from './grocery/GroceryBody';
 import GroceryCart from "./grocery/GroceryCart";
 import GroceryAbout from "./grocery/GroceryAbout";
 import NavigationOptions from "./NavigationOptions";
+import RestaurantForm from "./server/RestaurantForm";
+import AdminHome from "./server/AdminHome";
 
 const Navigator = () => {
   const appRouter = createBrowserRouter([
@@ -53,7 +55,14 @@ const Navigator = () => {
         path: "/grocery/cart",
         element: <GroceryCart />
     },
-
+    {
+      path: "/restaurantform",
+      element: <RestaurantForm />,
+    },
+    {
+      path: "/adminhome",
+      element: <AdminHome />,
+    },
     {
       path: "/error",
       errorElement: <Error />,
