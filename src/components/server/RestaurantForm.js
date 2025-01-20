@@ -25,7 +25,7 @@ const RestaurantForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/restaurant/restaurants', formData);
+      const response = await axios.post('http://localhost:3000/restaurants', formData);
       alert('Data submitted successfully');
       console.log(response.data);
       setFormData({

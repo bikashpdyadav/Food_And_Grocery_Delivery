@@ -14,7 +14,8 @@ const OrderList = () => {
                         "customer_name": "Chinese Wok",
                         "order_id": "e0839ff574213e6f35b3899ebf1fc597",
                         "item_name": "Adugodi",
-                        "status": "2024-09-08T20:30:00.000Z",
+                        "quantity": 1,
+                        "status": "pending",
                     }), 1000)
                 );
                 setOrders([response]);
@@ -75,6 +76,7 @@ const OrderList = () => {
                         <th className="border border-gray-300 px-4 py-2">Order ID</th>
                         <th className="border border-gray-300 px-4 py-2">Customer Name</th>
                         <th className="border border-gray-300 px-4 py-2">Item Name</th>
+                        <th className="border border-gray-300 px-4 py-2">Quantity</th>
                         <th className="border border-gray-300 px-4 py-2">Status</th>
                         <th className="border border-gray-300 px-4 py-2">Actions</th>
                     </tr>
@@ -82,11 +84,12 @@ const OrderList = () => {
                 <tbody>
                     {orders.map((order) => (
                         <tr key={order.order_id}>
-                            <td className="border border-gray-300 px-4 py-2">{order.order_id}</td>
-                            <td className="border border-gray-300 px-4 py-2">{order.customer_name}</td>
-                            <td className="border border-gray-300 px-4 py-2">{order.item_name}</td>
-                            <td className="border border-gray-300 px-4 py-2">{order.status}</td>
-                            <td className="border border-gray-300 px-4 py-2 space-x-2">
+                            <td className="border border-gray-300 px-4 py-2 text-center">{order.order_id}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{order.customer_name}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{order.item_name}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{order.quantity}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{order.status}</td>
+                            <td className="border border-gray-300 px-4 py-2 space-x-2 text-center">
                                 {order.status === 'delivered' && (
                                     <button
                                         className="bg-red-500 text-white px-3 py-1 rounded"

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CDN_URL } from '../utils/constants';
 import axios from "axios";
 
 const ViewRestaurants = () => {
@@ -47,9 +48,9 @@ const ViewRestaurants = () => {
                 </button>
               </div>
               {expanded === restaurant.rt_id && (
-                <div className="mt-4 text-sm space-y-2">
+                <div className="mt-4 text-sm space-y-2 w-1/5">
                   <img
-                    src={`https://res.cloudinary.com/demo/image/upload/${restaurant.cloudinary_image_id}`}
+                    src={CDN_URL + restaurant.cloudinary_image_id}
                     alt={restaurant.rt_name}
                     className="w-full h-32 object-cover rounded"
                   />

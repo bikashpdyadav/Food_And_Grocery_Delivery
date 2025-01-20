@@ -12,6 +12,7 @@ import GroceryAbout from "./grocery/GroceryAbout";
 import NavigationOptions from "./NavigationOptions";
 import RestaurantForm from "./server/RestaurantForm";
 import AdminHome from "./server/AdminHome";
+import MapComponent from "./map/MapComponent";
 
 const Navigator = () => {
   const appRouter = createBrowserRouter([
@@ -62,6 +63,10 @@ const Navigator = () => {
     {
       path: "/adminhome",
       element: <AdminHome />,
+    },
+    {
+      path: "/tracker",
+      element: <MapComponent />,
     },
     {
       path: "/error",
