@@ -10,7 +10,7 @@ const ViewRestaurants = () => {
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/data");
+        const response = await axios.get("https://food-grocery-backend.onrender.com/data");
         console.log(response.data);
         setRestaurants(response.data);
       } catch (err) {
