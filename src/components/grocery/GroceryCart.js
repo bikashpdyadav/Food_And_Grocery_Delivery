@@ -74,11 +74,11 @@ const GroceryCart = () => {
                     "https://food-delivery-app-payment.onrender.com/payment/success",
                     data
                 );
-
+                
                 if (result.status === 200) {
                     dispatch(clearCart());
                     localStorage.removeItem(`cart_${user.uid}`);
-                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id } });
+                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id, method: result.method } });
                 }
             },
             prefill: {

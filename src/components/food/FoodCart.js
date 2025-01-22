@@ -71,7 +71,7 @@ const FoodCart = () => {
                 if (result.status === 200) {
                     dispatch(clearCart());
                     localStorage.removeItem(`cart_${user.uid}`);
-                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id } });
+                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id, payment_id:response.razorpay_payment_id, type:"food" } });
                 }
             },
             prefill: {

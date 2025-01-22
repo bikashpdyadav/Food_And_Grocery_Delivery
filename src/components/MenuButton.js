@@ -24,6 +24,9 @@ const MenuButton = ({ cartItems, user, navigate, handleButtonClick, scrollToFoot
             <li className="px-2 sm:px-4 font-bold text-lg cursor-pointer" onClick={scrollToFooter}>
                 Contact Us
             </li>
+            <li className="px-2 sm:px-4 font-bold text-lg cursor-pointer" onClick={() => navigate("/orderhistory")}>
+                Order Details
+            </li>
             <li
                 className="px-2 sm:px-4 font-bold text-lg cursor-pointer"
                 onClick={() => isFoodSection ? navigate("/food/cart") : navigate("/grocery/cart")}>

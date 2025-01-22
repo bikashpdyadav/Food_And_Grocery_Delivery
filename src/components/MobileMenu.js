@@ -52,6 +52,11 @@ const MobileMenu = ({ isDropdownOpen, toggleDropdown, cartItems, user, navigate,
                     <li className="block px-4 py-2 text-sm hover:bg-gray-200 cursor-pointer" onClick={() => { scrollToFooter(); toggleDropdown(false); }}>
                         Contact Us
                     </li>
+                    <li 
+                        className="block px-4 py-2 text-sm hover:bg-gray-200 cursor-pointer" 
+                        onClick={() => { navigate("/orderhistory"); toggleDropdown(false); }}>
+                        Order Details
+                    </li>
                     <li className="block px-4 py-2 text-sm hover:bg-gray-200 cursor-pointer" onClick={() => { isFoodSection ? navigate("/food/cart"):navigate("/grocery/cart"); toggleDropdown(false); }}>
                         Cart ({cartItems.length})
                     </li>
