@@ -12,13 +12,13 @@ const DeliveryDashboard = () => {
     const fetchOrders = async () => {
       try {
         const pendingResponse = await axios.get(
-          "https://food-grocery-backend.onrender.com/orders",
+          "http://localhost:4000/orders",
           { params: { status: "order_placed" } }
         );
         setPendingOrders(pendingResponse.data.data || []);
 
         const acceptedResponse = await axios.get(
-          "https://food-grocery-backend.onrender.com/orders",
+          "http://localhost:4000/orders",
           { params: { status: "accepted" } }
         );
         setAcceptedOrders(acceptedResponse.data.data || []);
@@ -34,7 +34,7 @@ const DeliveryDashboard = () => {
 
   const handleAcceptOrder = async (orderId) => {
     try {
-      await axios.patch("https://food-grocery-backend.onrender.com/acceptorder", {
+      await axios.patch("http://localhost:4000/acceptorder", {
         order_id: orderId,
       });
       alert("Order accepted successfully!");

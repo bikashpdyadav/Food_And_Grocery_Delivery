@@ -33,7 +33,7 @@ const OrderSuccessPage = () => {
         amount: amount,
         type: type,
       };
-      await axios.post("https://food-grocery-backend.onrender.com/paymentdetails", paymentDetails);
+      await axios.post("http://localhost:4000/paymentdetails", paymentDetails);
     } catch (error) {
       console.log("Error updating details " + error);
     }
