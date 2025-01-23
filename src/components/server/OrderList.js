@@ -10,8 +10,8 @@ const OrderList = () => {
         const fetchOrders = async () => {
             try {
                 const response = await axios.get('https://food-grocery-backend.onrender.com/orders');
-                //console.log(response);
-                setOrders(response.data);
+                //console.log(response.data);
+                setOrders(response.data.data);
             } catch (err) {
                 setError('Failed to fetch orders');
             }
@@ -57,7 +57,6 @@ const OrderList = () => {
             setError('Failed to cancel order');
         }
     };
-
 
     return (
         <div className="p-4">

@@ -20,6 +20,7 @@ const FoodCart = () => {
     const [totalAmount, setTotalAmount] = useState(0);
     const [showSignInModal, setShowSignInModal] = useState(false);
     const [showClearCartModal, setShowClearCartModal] = useState(false);
+    const [useraddress, setuserAddress] = useState("");
 
     // Function to load Razorpay script
     function loadScript(src) {
@@ -60,7 +61,7 @@ const FoodCart = () => {
                     orderCreationId: order_id,
                     razorpayPaymentId: response.razorpay_payment_id,
                     razorpayOrderId: response.razorpay_order_id,
-                    razorpaySignature: response.razorpay_signature,
+                    razorpaySignature: response.razorpay_signature
                 };
 
                 const result = await axios.post(
@@ -71,7 +72,7 @@ const FoodCart = () => {
                 if (result.status === 200) {
                     dispatch(clearCart());
                     localStorage.removeItem(`cart_${user.uid}`);
-                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id, payment_id:response.razorpay_payment_id, type:"food" } });
+                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id, payment_id:response.razorpay_payment_id, type:"food", useraddress:useraddress } });
                 }
             },
             prefill: {
@@ -133,6 +134,8 @@ const FoodCart = () => {
                         setShowSignInModal={setShowSignInModal}
                         setShowClearCartModal={setShowClearCartModal}
                         displayRazorpay={displayRazorpay}
+                        useraddress={useraddress}
+                        setuserAddress={setuserAddress}
                     />
                 </div>
                 {showSignInModal && <SignInFirst onCancel={() => setShowSignInModal(false)} />}
