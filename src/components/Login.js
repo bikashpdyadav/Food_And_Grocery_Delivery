@@ -10,11 +10,12 @@ import { useDispatch } from "react-redux";
 import { addUser } from "./utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { LOGO_URL } from "./utils/constants";
+import axios from "axios";
 
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [showPassword, setShowPassword] = useState(false); // State for password visibility
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     const name = useRef(null);
     const email = useRef(null);
@@ -26,7 +27,6 @@ const Login = () => {
     };
 
     const handleButtonClick = async () => {
-        // Validate form data
         const message = checkValidData(email.current.value, password.current.value);
         setErrorMessage(message);
 
@@ -34,7 +34,6 @@ const Login = () => {
 
         try {
             if (!isSignIn) {
-                // Sign up
                 const userCredential = await createUserWithEmailAndPassword(
                     auth,
                     email.current.value,

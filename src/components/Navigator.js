@@ -77,10 +77,6 @@ const Navigator = () => {
       element: <AdminLogin />,
     },
     {
-      path: "/tracker",
-      element: <MapComponent />,
-    },
-    {
       path: "/orderhistory",
       element: <OrderDetails />,
     },

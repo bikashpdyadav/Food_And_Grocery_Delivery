@@ -72,7 +72,12 @@ const FoodCart = () => {
                 if (result.status === 200) {
                     dispatch(clearCart());
                     localStorage.removeItem(`cart_${user.uid}`);
-                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id, payment_id:response.razorpay_payment_id, type:"food", useraddress:useraddress } });
+                    await axios.post("http://localhost:4000/ordertrack", {
+                        order_id: order_id,
+                        userId: user.uid,
+                        user_location: useraddress
+                    });
+                    navigate('/success', { state: { amount: totalAmount / 100, id: order_id, payment_id:response.razorpay_payment_id, type:"food" } });
                 }
             },
             prefill: {

@@ -10,7 +10,6 @@ const OrderList = () => {
         const fetchOrders = async () => {
             try {
                 const response = await axios.get('http://localhost:4000/orders');
-                //console.log(response.data);
                 setOrders(response.data.data);
             } catch (err) {
                 setError('Failed to fetch orders');
@@ -19,42 +18,22 @@ const OrderList = () => {
         fetchOrders();
     }, []);
 
-    // Delete order
-    const handleDelete = async (id) => {
+    // Update order status
+    const handleStatusChange = async (id, newStatus) => {
         try {
-            // Simulate an API call with setTimeout
-            await new Promise((resolve) =>
-                setTimeout(() => {
-                    console.log(`Deleted order with ID: ${id}`);
-                    resolve();
-                }, 500)
-            );
+            await axios.patch("http://localhost:4000/orderstatus", {
+                order_id: id,
+                status: newStatus,
+            });
 
-            // Update state after successful deletion
-            setOrders(orders.filter((order) => order.order_id !== id));
-        } catch (err) {
-            setError('Failed to delete order');
-        }
-    };
-
-    const handleCancel = async (id) => {
-        try {
-            // Simulate an API call with setTimeout
-            await new Promise((resolve) =>
-                setTimeout(() => {
-                    console.log(`Canceled order with ID: ${id}`);
-                    resolve();
-                }, 500)
-            );
-
-            // Update state after successful cancellation
+            // Update state after successful status change
             setOrders(
                 orders.map((order) =>
-                    order.order_id === id ? { ...order, status: 'canceled' } : order
+                    order.order_id === id ? { ...order, status: newStatus } : order
                 )
             );
         } catch (err) {
-            setError('Failed to cancel order');
+            setError('Failed to update order status');
         }
     };
 
@@ -69,6 +48,7 @@ const OrderList = () => {
                         <th className="border border-gray-300 px-4 py-2">Customer Name</th>
                         <th className="border border-gray-300 px-4 py-2">Transaction ID</th>
                         <th className="border border-gray-300 px-4 py-2">Status</th>
+                        <th className="border border-gray-300 px-4 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,6 +58,24 @@ const OrderList = () => {
                             <td className="border border-gray-300 px-4 py-2 text-center">{order.user_name}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{order.transaction_id}</td>
                             <td className="border border-gray-300 px-4 py-2 text-center">{order.status}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">
+                                <select
+                                    value={order.status}
+                                    onChange={(e) => handleStatusChange(order.order_id, e.target.value)}
+                                    className="border border-gray-300 rounded px-2 py-1"
+                                >
+                                    <option value="order_placed">Order Placed</option>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="ready_for_pickup">Ready for Pickup</option>
+                                    <option value="out_for_delivery">Out for Delivery</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="canceled_by_customer">Canceled by Customer</option>
+                                    <option value="canceled_by_restaurant">Canceled by Restaurant</option>
+                                    <option value="delayed">Delayed</option>
+                                    <option value="refund_initiated">Refund Initiated</option>
+                                    <option value="refund_completed">Refund Completed</option>
+                                </select>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

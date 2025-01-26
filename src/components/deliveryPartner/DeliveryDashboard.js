@@ -5,7 +5,9 @@ const DeliveryDashboard = () => {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [acceptedOrders, setAcceptedOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [address, setAddress] = useState("");
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   // Fetch pending and accepted orders
   useEffect(() => {
@@ -32,40 +34,38 @@ const DeliveryDashboard = () => {
     fetchOrders();
   }, []);
 
-  const handleAcceptOrder = async (orderId) => {
+  // Accept order and show address modal
+  const handleAcceptOrder = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowAddressModal(true);
+  };
+
+  const confirmAcceptOrder = async () => {
     try {
-      await axios.patch("http://localhost:4000/acceptorder", {
-        order_id: orderId,
+      await axios.patch("http://localhost:4000/orderstatus", {
+        order_id: selectedOrderId,
+        status: "accepted",
       });
+      
+      await axios.patch("http://localhost:4000/ordertrack", {
+        order_id: selectedOrderId,
+        driver_location: address,
+      });
+      
       alert("Order accepted successfully!");
+      setShowAddressModal(false);
 
       // Move the order from pending to accepted
-      const acceptedOrder = pendingOrders.find((order) => order.order_id === orderId);
-      setPendingOrders((prev) => prev.filter((order) => order.order_id !== orderId));
-      setAcceptedOrders((prev) => [...prev, { ...acceptedOrder, status: "accepted" }]);
+      const acceptedOrder = pendingOrders.find((order) => order.order_id === selectedOrderId);
+      setPendingOrders((prev) => prev.filter((order) => order.order_id !== selectedOrderId));
+      setAcceptedOrders((prev) => [...prev, { ...acceptedOrder, status: "accepted", address }]);
     } catch (error) {
       console.error("Error accepting order:", error);
     }
   };
 
   const handleTrackOrder = async () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentLocation({ latitude, longitude });
-        alert(`Current Location: Latitude: ${latitude}, Longitude: ${longitude}`);
-        // Optionally, you can send this location to the backend or display it on a map.
-      },
-      (error) => {
-        console.error("Error fetching location:", error);
-        alert("Unable to fetch location. Please enable location services.");
-      }
-    );
+    alert("Tracking feature not implemented.");
   };
 
   if (loading) {
@@ -148,6 +148,33 @@ const DeliveryDashboard = () => {
           </div>
         )}
       </section>
+
+      {showAddressModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+            <h3 className="text-lg font-semibold mb-4">Enter Delivery Address</h3>
+            <textarea
+              className="w-full border border-gray-300 rounded p-2 mb-4"
+              rows="4"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter address here..."
+            />
+            <button
+              onClick={confirmAcceptOrder}
+              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition mb-2"
+            >
+              Confirm
+            </button>
+            <button
+              onClick={() => setShowAddressModal(false)}
+              className="w-full bg-gray-300 text-black py-2 rounded-md hover:bg-gray-400 transition"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

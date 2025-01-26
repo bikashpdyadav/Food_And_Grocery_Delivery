@@ -1,7 +1,7 @@
 // /* global google */
 // import React, { useState, useEffect } from 'react';
 // import { GoogleMap, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // const MapWithDirectionsRenderer = () => {
 //   const [directions, setDirections] = useState(null);
@@ -98,64 +98,85 @@
 // export default MapWithDirectionsRenderer;
 
 /* global google */
+
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
-import { useLocation } from 'react-router-dom';
 
-const MapWithDirectionsRenderer = () => {
+const MapWithDirectionsRenderer = ({ location }) => {
   const [directions, setDirections] = useState(null);
+  const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 }); // Default center
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, // Replace with your actual API key
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, // Replace with your API key
     libraries: ['geometry', 'drawing', 'places'],
   });
-  const location = useLocation();
-  const { useraddress } = location.state || {};
-  
-  useEffect(() => {
-    if (isLoaded && useraddress) {
-      const geocoder = new google.maps.Geocoder();
-      
-      geocoder.geocode({ address: useraddress }, (results, status) => {
-        if (status === 'OK') {
-          const origin = results[0].geometry.location;
-          const directionsService = new google.maps.DirectionsService();
 
+  const { user_location, driver_location } = location;
+
+  useEffect(() => {
+    if (isLoaded && user_location && driver_location) {
+      const geocoder = new google.maps.Geocoder();
+
+      // Geocode both user and driver locations
+      Promise.all([
+        geocodeAddress(geocoder, user_location),
+        geocodeAddress(geocoder, driver_location),
+      ])
+        .then(([origin, destination]) => {
+          setMapCenter(origin); // Set the map center to the user's location
+
+          const directionsService = new google.maps.DirectionsService();
           directionsService.route(
             {
               origin: origin,
-              destination: new google.maps.LatLng(12.9756, 77.5354), // Set your desired destination
+              destination: destination,
               travelMode: google.maps.TravelMode.DRIVING,
             },
             (result, status) => {
               if (status === google.maps.DirectionsStatus.OK) {
                 setDirections(result);
               } else {
-                console.error(`Error fetching directions: ${result}`);
+                console.error(`Error fetching directions: ${status}`);
               }
             }
           );
+        })
+        .catch((error) => console.error('Error geocoding locations:', error));
+    }
+  }, [isLoaded, user_location, driver_location]);
+
+  // Helper function to geocode an address or postal code
+  const geocodeAddress = (geocoder, address) => {
+    return new Promise((resolve, reject) => {
+      geocoder.geocode({ address: address }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          resolve(results[0].geometry.location);
         } else {
-          console.error('Error geocoding user address:', status);
+          reject(`Geocoding failed: ${status}`);
         }
       });
-    }
-  }, [isLoaded, useraddress]);
+    });
+  };
 
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
+    <div className="mt-6 rounded-lg shadow-md overflow-hidden">
       <GoogleMap
-        mapContainerStyle={{ height: '400px', width: '100%' }}
-        center={{ lat: 0, lng: 0 }} // Temporary center until directions are loaded
-        zoom={7}
+        mapContainerStyle={{
+          height: '400px',  
+          width: '100%',
+        }}
+        center={mapCenter}
+        zoom={12}
       >
         {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
     </div>
+
   );
 };
 
 export default MapWithDirectionsRenderer;
+
