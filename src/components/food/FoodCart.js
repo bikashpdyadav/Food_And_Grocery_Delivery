@@ -125,6 +125,8 @@ const FoodCart = () => {
         setShowClearCartModal(false);
     };
 
+    console.log(cartItems)
+
     return (
         <div className="flex flex-col min-h-screen">
             <Header />

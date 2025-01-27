@@ -4,7 +4,7 @@ const RestaurantCategory = ({ data, setshowIndex, showItems }) => {
     const handleClick = () => {
         setshowIndex();
     };
-    //console.log(restroName)
+    
     return (
         <div className="w-full sm:w-8/12 lg:w-6/12 mx-auto my-8 bg-gray-100 shadow-lg p-4">
             <div className="flex justify-between items-center cursor-pointer" onClick={handleClick}>

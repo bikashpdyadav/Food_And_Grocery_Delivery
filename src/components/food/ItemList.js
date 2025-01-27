@@ -6,31 +6,43 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useLocation } from "react-router-dom";
 
 const ItemList = ({ items, name }) => {
+    console.log(name)
     const dispatch = useDispatch();
     const user = useSelector((store) => store.user);
     const location = useLocation();
     const isCart = location.pathname.includes("cart");
-    // console.log(isCart);
-
-    // Get cart state to show the item quantity
+    
     const cartItems = useSelector((state) => state.cart.items);
-    console.log(cartItems)
-    console.log(items)
     const userId = user?.uid;
-    const handleAddItem = (item) => {
+    const handleAddItem = ({item, name}) => {
+        // Create a new item with the provided name for each addition
         const itemWithName = {
             ...item,
-            name: name, // Add the name from item details
+            name: name,  // Add the unique name for the current item
         };
-        //console.log(itemWithName)
+        console.log(itemWithName);
+        
+        // Dispatch the action to add the item to the store
         dispatch(addItem(itemWithName));
+    
+        // Display the toast
         toast("Item Added to Cart!");
-        // Update local storage with the updated cart
-        const updatedCart = [...cartItems, { ...item, quantity: getItemQuantity(item?.card?.info?.id) + 1 }];
+        
+        // Update the cart in localStorage
+        const updatedCart = [
+            ...cartItems,
+            {
+                ...itemWithName,  // Make sure to use the item with the name
+                quantity: getItemQuantity(item?.card?.info?.id) + 1
+            }
+        ];
+    
         if (userId) {
-            localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart)); // Update cart in localStorage
+            // Update cart in localStorage with the new item structure
+            localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
         }
     };
+    
 
     const handleRemoveItem = (item) => {
         dispatch(removeItem(item));
@@ -47,7 +59,7 @@ const ItemList = ({ items, name }) => {
         const cartItem = cartItems.find(i => i.card.info.id === itemId);
         return cartItem ? cartItem.quantity : 0;
     };
-
+    console.log(items)
     return (
         <div>
             {items.map((item) => (
@@ -91,7 +103,7 @@ const ItemList = ({ items, name }) => {
                                 <span className="mx-2 text-lg">{getItemQuantity(item?.card?.info?.id)}</span> {/* Display quantity */}
                                 <button
                                     className="bg-black text-white py-1 px-3 mx-1 shadow-lg rounded-lg"
-                                    onClick={() => handleAddItem(item)}
+                                    onClick={() => handleAddItem({item,name})}
                                 >
                                     +
                                 </button>
