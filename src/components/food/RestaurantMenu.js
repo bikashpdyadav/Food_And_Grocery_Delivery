@@ -13,12 +13,9 @@ const RestaurantMenu = () => {
     const { restaurantInfo } = location.state;
 
     if (resInfo === null) return <Shimmer />;
-    //console.log(resInfo)
     const categories = resInfo?.cart?.items[0];
-    const {
-        name,
-        cuisines,
-    } = restaurantInfo;
+    const { name, cuisines } = restaurantInfo;
+
     return (
         <>
             <Header />
@@ -26,13 +23,13 @@ const RestaurantMenu = () => {
                 <div className="text-center m-6">
                     <h1 className="font-extrabold text-4xl p-4">{name}</h1>
                     <p className="font-bold text-xl">
-                        {cuisines.join(', ')}
+                        {cuisines.join(", ")}
                     </p>
                 </div>
                 {categories.map((category, index) => (
                     <RestaurantCategory
                         key={index}
-                        data={category?.card?.card}
+                        data={{ ...category?.card?.card, name }}
                         setshowIndex={() =>
                             setShowIndex({
                                 value: !(showIndex.idx === index && showIndex.value),

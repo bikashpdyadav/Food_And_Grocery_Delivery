@@ -12,7 +12,6 @@ import GroceryAbout from "./grocery/GroceryAbout";
 import NavigationOptions from "./NavigationOptions";
 import RestaurantForm from "./server/RestaurantForm";
 import AdminHome from "./server/AdminHome";
-import MapComponent from "./map/MapComponent";
 import ProtectedRoute from "./server/ProtectedRoute";
 import AdminLogin from "./server/AdminLogin";
 import OrderDetails from "./OrderDetails";

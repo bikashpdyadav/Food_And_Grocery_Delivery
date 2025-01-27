@@ -130,7 +130,7 @@ const FoodCart = () => {
             <Header />
             <div className="flex-grow relative text-center m-4 p-4">
                 <h1 className="text-2xl font-bold mb-4 md:text-3xl">Cart</h1>
-                <div className="w-full max-w-4xl mx-auto my-8 p-6 border border-solid border-gray-200 rounded-lg bg-white shadow-lg">
+                <div className="w-full max-w-4xl mx-auto my-8 p-6 border border-solid border-gray-200 rounded-lg bg-lime-200 shadow-lg">
                     <ItemList items={cartItems} src={"cart"} className="space-y-4" />
                     <CartSummary cartItems={cartItems} totalAmount={totalAmount} navigate={navigate} />
                     <CartActions
