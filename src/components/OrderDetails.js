@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "./utils/constants";
 import Map from "../components/map/MapComponent"; // Import your map component here
 
 const OrderDetails = () => {
@@ -26,7 +27,7 @@ const OrderDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:4000/orders?userId=${user.uid}`
+          `${BASE_URL}/orders?userId=${user.uid}`
         );
         setOrders(response.data.data);
       } catch (err) {
@@ -100,7 +101,7 @@ const OrderDetails = () => {
   const handleTrackOrder = async (orderId) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/ordertrack?order_id=${orderId}`
+        `${BASE_URL}/ordertrack?order_id=${orderId}`
       );
       const data = response.data;
       setOrderLocation(data.order[0]); // Store the location data in state

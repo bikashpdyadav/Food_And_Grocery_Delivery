@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCart, setCartItems } from "../utils/cartSlice";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { LOGO_URL } from '../utils/constants';
+import { BASE_URL, LOGO_URL } from '../utils/constants';
 import Header from '../Header';
 import Contact from '../Contact';
 import ItemList from "./ItemList";
@@ -72,7 +72,7 @@ const FoodCart = () => {
                 if (result.status === 200) {
                     dispatch(clearCart());
                     localStorage.removeItem(`cart_${user.uid}`);
-                    await axios.post("http://localhost:4000/ordertrack", {
+                    await axios.post(BASE_URL+"/ordertrack", {
                         order_id: order_id,
                         userId: user.uid,
                         user_location: useraddress

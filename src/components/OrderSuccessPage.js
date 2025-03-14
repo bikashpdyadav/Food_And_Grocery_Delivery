@@ -139,6 +139,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
+import { BASE_URL } from "./utils/constants";
 
 const OrderSuccessPage = () => {
   const user = useSelector((store) => store.user);
@@ -158,7 +159,7 @@ const OrderSuccessPage = () => {
         amount: amount,
         type: type,
       };
-      await axios.post("http://localhost:4000/paymentdetails", paymentDetails);
+      await axios.post(BASE_URL+"/paymentdetails", paymentDetails);
     } catch (error) {
       console.error("Error updating payment details: " + error.message);
     }

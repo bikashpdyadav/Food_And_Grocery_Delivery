@@ -8,6 +8,8 @@ export const MENU_API = "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_M
 
 export const GROCERY_API = "https://www.swiggy.com/api/instamart/category-listing?categoryName=Fresh%20Vegetables&storeId=911032&offset=0&filterName=&primaryStoreId=911032&secondaryStoreId=&taxonomyType=Speciality%20taxonomy%201";
 
+export const BASE_URL = "https://food-grocery-backend.onrender.com";
+
 export const RESTRO_LIST = [
     {
         "info": {

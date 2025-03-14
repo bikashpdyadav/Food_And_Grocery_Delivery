@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const DeliveryDashboard = () => {
   const [pendingOrders, setPendingOrders] = useState([]);
@@ -14,13 +15,13 @@ const DeliveryDashboard = () => {
     const fetchOrders = async () => {
       try {
         const pendingResponse = await axios.get(
-          "http://localhost:4000/orders",
+          BASE_URL,
           { params: { status: "order_placed" } }
         );
         setPendingOrders(pendingResponse.data.data || []);
 
         const acceptedResponse = await axios.get(
-          "http://localhost:4000/orders",
+          BASE_URL,
           { params: { status: "accepted" } }
         );
         setAcceptedOrders(acceptedResponse.data.data || []);
@@ -42,12 +43,12 @@ const DeliveryDashboard = () => {
 
   const confirmAcceptOrder = async () => {
     try {
-      await axios.patch("http://localhost:4000/orderstatus", {
+      await axios.patch(BASE_URL+"/orderstatus", {
         order_id: selectedOrderId,
         status: "accepted",
       });
       
-      await axios.patch("http://localhost:4000/ordertrack", {
+      await axios.patch(BASE_URL+"/ordertrack", {
         order_id: selectedOrderId,
         driver_location: address,
       });

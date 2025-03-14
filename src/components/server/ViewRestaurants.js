@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CDN_URL } from '../utils/constants';
+import { BASE_URL, CDN_URL } from '../utils/constants';
 import axios from "axios";
 
 const ViewRestaurants = () => {
@@ -10,7 +10,7 @@ const ViewRestaurants = () => {
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/data");
+        const response = await axios.get(BASE_URL+"/data");
         console.log(response.data);
         setRestaurants(response.data);
       } catch (err) {
