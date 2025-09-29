@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GROCERY_API } from '../utils/constants';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ComingSoon from './ComingSoon';
 
 const FoodBody = () => {
   const dispatch = useDispatch();
@@ -44,37 +45,41 @@ const FoodBody = () => {
     // }
   };
 
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className='p-4 flex flex-wrap flex-grow justify-center gap-4'>
-        {groceryList.map((grocery, index) => (
-          <div key={index} className="m-2 flex-grow max-w-xs">
-            <div className="flex flex-col items-center p-2">
-              <img className="w-3/4 h-auto" src={IMG_URL + grocery.imageId} alt={grocery.displayName} />
-              <div className="flex justify-center items-center mt-2"> { }
-                <button
-                  className="bg-black text-white py-1 px-3 mx-1 shadow-lg rounded-lg"
-                  onClick={() => handleRemoveItem(grocery)}
-                >
-                  -
-                </button>
-                {/* <span className="mx-2 text-lg">{getItemQuantity(item?.card?.info?.id)}</span> {} */}
-                <button
-                  className="bg-black text-white py-1 px-3 mx-1 shadow-lg rounded-lg"
-                  onClick={() => handleAddItem(grocery)}
-                >
-                  +
-                </button>
-              </div>
-              <h1 className="mt-3 text-center">{grocery.displayName}</h1>
-            </div>
-          </div>
-        ))}
-      </div>
-      <Contact />
-    </div>
-  );
+  // Temporarily return ComingSoon component to avoid API errors
+  return <ComingSoon />;
+
+  // Original grocery functionality (commented out temporarily)
+  // return (
+  //   <div className="flex flex-col min-h-screen">
+  //     <Header />
+  //     <div className='p-4 flex flex-wrap flex-grow justify-center gap-4'>
+  //       {groceryList.map((grocery, index) => (
+  //         <div key={index} className="m-2 flex-grow max-w-xs">
+  //           <div className="flex flex-col items-center p-2">
+  //             <img className="w-3/4 h-auto" src={IMG_URL + grocery.imageId} alt={grocery.displayName} />
+  //             <div className="flex justify-center items-center mt-2"> { }
+  //               <button
+  //                 className="bg-black text-white py-1 px-3 mx-1 shadow-lg rounded-lg"
+  //                 onClick={() => handleRemoveItem(grocery)}
+  //               >
+  //                 -
+  //               </button>
+  //               {/* <span className="mx-2 text-lg">{getItemQuantity(item?.card?.info?.id)}</span> {} */}
+  //               <button
+  //                 className="bg-black text-white py-1 px-3 mx-1 shadow-lg rounded-lg"
+  //                 onClick={() => handleAddItem(grocery)}
+  //               >
+  //                 +
+  //               </button>
+  //             </div>
+  //             <h1 className="mt-3 text-center">{grocery.displayName}</h1>
+  //           </div>
+  //         </div>
+  //       ))}
+  //     </div>
+  //     <Contact />
+  //   </div>
+  // );
 };
 
 export default FoodBody;
